@@ -1,0 +1,13 @@
+server:
+    port: 8888
+eureka:
+    client:
+        registerWithEureka: false
+        fetchRegistry: false
+spring:
+    application:
+        name: eurekaServer
+    cloud:
+        config:
+            enabled: true
+            uri: http://localhost:8888
