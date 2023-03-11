@@ -1,5 +1,9 @@
+server:
+  port: 8081
 spring:
   application:
     name: catalog-service
+  profiles:
+    active: development
   config:
-    import: configserver:http://localhost:8888
+    import: configserver:http://localhost:8080
