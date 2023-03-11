@@ -10,6 +10,6 @@ spring:
         git:
           uri: file://Users/juancruzpressacco/repos/eureka-server
           #uri: ssh:git@github.com:beludominguez/dh-eureka.git
-          search-paths: config-server/config
+          search-paths: config-server
           default-label: master
           force-pull: false
