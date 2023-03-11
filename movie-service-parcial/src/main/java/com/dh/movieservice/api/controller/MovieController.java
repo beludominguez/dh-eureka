@@ -18,7 +18,7 @@ import java.util.List;
 public class MovieController {
     private final MovieService movieService;
 
-    @Value("${test.property}")
+    @Value("${test.property:default-value}")
     private String testProperty;
 
     public MovieController(MovieService movieService) {

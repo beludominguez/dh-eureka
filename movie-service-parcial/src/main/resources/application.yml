@@ -6,7 +6,7 @@ spring:
   profiles:
     active: development
   config:
-    import: configserver:http://localhost:8080
+    import: optional:configserver:http://localhost:8080
   datasource:
     url: jdbc:h2:mem:mydb
     username: sa
