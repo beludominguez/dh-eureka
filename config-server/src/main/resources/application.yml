@@ -12,3 +12,4 @@ spring:
           #uri: ssh:git@github.com:beludominguez/dh-eureka.git
           search-paths: config-server/config
           default-label: master
+          force-pull: false
