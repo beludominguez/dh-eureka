@@ -1,2 +1,5 @@
 test:
   property: "yeah"
+
+server:
+  port: 0
