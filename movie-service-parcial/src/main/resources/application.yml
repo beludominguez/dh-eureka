@@ -8,12 +8,16 @@ spring:
   config:
     import: optional:configserver:http://localhost:8080
   datasource:
-    url: jdbc:h2:mem:mydb
-    username: sa
-    password: password
+    url: jdbc:h2:mem:movies
+    username: admin
+    password:
     driverClassName: org.h2.Driver
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    defer-datasource-initialization: true
 eureka:
   client:
     serviceUrl:

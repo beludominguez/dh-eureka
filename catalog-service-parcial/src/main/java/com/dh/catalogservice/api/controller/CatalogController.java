@@ -17,8 +17,8 @@ public class CatalogController {
         this.catalogService = catalogService;
     }
 
-    @GetMapping("/test-feign")
-    String getCatalogByGenre() {
-        return catalogService.testClient();
+    @GetMapping("/{genre}")
+    ResponseEntity<CatalogWS> getCatalogByGenre(@PathVariable String genre) {
+        return ResponseEntity.ok().body(catalogService.getMoviesByGenre(genre));
     }
 }

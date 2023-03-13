@@ -1,6 +1,7 @@
 package com.dh.catalogservice.api.service;
 
 import com.dh.catalogservice.domain.clients.MovieClient;
+import com.dh.catalogservice.domain.model.dto.CatalogWS;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +12,7 @@ public class CatalogService {
         this.movieClient = movieClient;
     }
 
-    public String testClient() {
-        return movieClient.test();
+    public CatalogWS getMoviesByGenre(String genre) {
+        return CatalogWS.builder().movies(movieClient.getMoviesByGenre(genre)).genre(genre).build();
     }
 }
