@@ -3,6 +3,8 @@ spring:
     name: gateway
   profiles:
     active: development
+  config:
+    import: optional:configserver:http://localhost:8080
   cloud:
     gateway:
       routes:
