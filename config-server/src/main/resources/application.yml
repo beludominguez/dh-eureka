@@ -8,8 +8,7 @@ spring:
     config:
       server:
         git:
-          uri: file:/home/jpressacco/Documents/EspecializacionBack/examen-esp-backend-dominguez-lia-belen
-          #uri: ssh:git@github.com:beludominguez/dh-eureka.git
+          uri: git@github.com:beludominguez/examen-esp-backend-dominguez-lia-belen.git
           search-paths: config-server
           default-label: master
           force-pull: false
