@@ -2,9 +2,13 @@ package com.dh.catalogservice.api.controller;
 
 import com.dh.catalogservice.api.service.CatalogService;
 import com.dh.catalogservice.domain.model.dto.CatalogWS;
+import com.dh.catalogservice.domain.model.dto.MovieWS;
+import com.dh.catalogservice.domain.model.dto.SerieWS;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,5 +24,15 @@ public class CatalogController {
     @GetMapping("/{genre}")
     ResponseEntity<CatalogWS> getCatalogByGenre(@PathVariable String genre) {
         return ResponseEntity.ok().body(catalogService.getMoviesByGenre(genre));
+    }
+
+    @PostMapping("/movies")
+    ResponseEntity<CatalogWS> saveMovie(@RequestBody MovieWS moviesWS) {
+        return ResponseEntity.ok().body(catalogService.createMovie(moviesWS));
+    }
+
+    @PostMapping("/series")
+    ResponseEntity<CatalogWS> saveMovie(@RequestBody SerieWS serieWS) {
+        return ResponseEntity.ok().body(catalogService.createSerie(serieWS));
     }
 }
