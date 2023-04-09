@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Document
-public class Serie {
+public class Series {
 
     private String id;
     private String name;

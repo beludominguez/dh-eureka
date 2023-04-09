@@ -1,6 +1,6 @@
 package com.dh.movieservice.api.controller;
 
-import com.dh.movieservice.api.service.MovieService;
+import com.dh.movieservice.api.service.MoviesService;
 import com.dh.movieservice.domain.model.Movie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +15,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/movies")
 public class MovieController {
-    private final MovieService movieService;
+    private final MoviesService moviesService;
 
-    public MovieController(MovieService movieService) {
-        this.movieService = movieService;
+    public MovieController(MoviesService moviesService) {
+        this.moviesService = moviesService;
     }
 
     @GetMapping("/{genre}")
     public ResponseEntity<List<Movie>> getMovieByGenre(@PathVariable String genre) {
-        return ResponseEntity.ok().body(movieService.getListByGenre(genre));
+        return ResponseEntity.ok().body(moviesService.getListByGenre(genre));
     }
 
     @PostMapping
     public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie) {
-        return ResponseEntity.ok().body(movieService.save(movie));
+        return ResponseEntity.ok().body(moviesService.save(movie));
     }
 }

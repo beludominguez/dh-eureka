@@ -3,9 +3,7 @@ package com.dh.catalogservice.api.service;
 import com.dh.catalogservice.api.model.Chapter;
 import com.dh.catalogservice.api.model.Movie;
 import com.dh.catalogservice.api.model.Season;
-import com.dh.catalogservice.api.model.Serie;
-import com.dh.catalogservice.domain.clients.MovieClient;
-import com.dh.catalogservice.domain.clients.SerieClient;
+import com.dh.catalogservice.api.model.Series;
 import com.dh.catalogservice.domain.model.CatalogWS;
 import com.dh.catalogservice.domain.model.ChapterWS;
 import com.dh.catalogservice.domain.model.MovieWS;
@@ -20,23 +18,23 @@ import java.util.UUID;
 
 @Service
 public class CatalogService {
-    private final MovieClient movieClient;
-    private final SerieClient serieClient;
+    private final MovieService movieService;
+    private final SeriesService seriesService;
 
     private final MovieRepository movieRepository;
     private final SeriesRepository seriesRepository;
 
-    public CatalogService(MovieClient movieClient, SerieClient serieClient,
+    public CatalogService(MovieService movieService, SeriesService seriesService,
                           MovieRepository movieRepository, SeriesRepository seriesRepository) {
-        this.movieClient = movieClient;
-        this.serieClient = serieClient;
+        this.movieService = movieService;
+        this.seriesService = seriesService;
         this.movieRepository = movieRepository;
         this.seriesRepository = seriesRepository;
     }
 
     public CatalogWS getCatalogByGenre(String genre) {
 
-        List<Serie> seriesByGenre = seriesRepository.findByGenre(genre);
+        List<Series> seriesByGenre = seriesRepository.findByGenre(genre);
         List<Movie> moviesByGenre = movieRepository.findByGenre(genre);
 
         return CatalogWS.builder().series(seriesByGenre.stream().map(serie -> {
@@ -68,15 +66,16 @@ public class CatalogService {
                     movieWS.setId(m.getId());
                     return movieWS;
                 }).toList())
+                .genre(genre)
                 .build();
     }
 
     public CatalogWS getMoviesByGenre(String genre) {
-        return CatalogWS.builder().movies(movieClient.getMoviesByGenre(genre)).genre(genre).build();
+        return CatalogWS.builder().movies(movieService.getMoviesByGenre(genre)).genre(genre).build();
     }
 
     public CatalogWS getSeriesByGenre(String genre) {
-        return CatalogWS.builder().series(serieClient.getSeriesByGenre(genre)).genre(genre).build();
+        return CatalogWS.builder().series(seriesService.getSeriesByGenre(genre)).genre(genre).build();
     }
 
     public MovieWS createMovie(MovieWS movimovieWS) {
@@ -85,14 +84,14 @@ public class CatalogService {
         movie.setGenre(movimovieWS.getGenre());
         movie.setUrlStream(movimovieWS.getUrlStream());
 
-        return movieClient.saveMovie(movie);
+        return movieService.saveMovie(movie);
     }
 
     public SerieWS createSerie(SerieWS serieWS) {
-        Serie serie = new Serie();
-        serie.setGenre(serieWS.getGenre());
-        serie.setName(serieWS.getName());
-        serie.setSeasons(serieWS.getSeasons().stream().map(s -> {
+        Series series = new Series();
+        series.setGenre(serieWS.getGenre());
+        series.setName(serieWS.getName());
+        series.setSeasons(serieWS.getSeasons().stream().map(s -> {
             Season season = new Season();
             season.setId(UUID.randomUUID().toString());
             season.setSeasonNumber(s.getSeasonNumber());
@@ -106,6 +105,6 @@ public class CatalogService {
             }).toList());
             return season;
         }).toList());
-        return serieClient.saveSerie(serie);
+        return seriesService.saveSeries(series);
     }
 }
