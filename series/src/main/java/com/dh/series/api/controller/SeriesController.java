@@ -1,7 +1,7 @@
-package com.dh.series.series.api.controller;
+package com.dh.series.api.controller;
 
-import com.dh.series.series.api.service.SeriesService;
-import com.dh.series.series.domain.model.Serie;
+import com.dh.series.api.service.SeriesService;
+import com.dh.series.domain.model.Serie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +27,7 @@ public class SeriesController {
     }
 
     @PostMapping
-    public ResponseEntity<Serie> saveMovie(@RequestBody Serie serie) {
+    public ResponseEntity<Serie> saveSeries(@RequestBody Serie serie) {
         return ResponseEntity.ok().body(seriesService.save(serie));
     }
 }

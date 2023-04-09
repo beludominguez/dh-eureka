@@ -2,10 +2,13 @@ package com.dh.catalogservice.domain.clients;
 
 import com.dh.catalogservice.api.model.Serie;
 import com.dh.catalogservice.domain.model.dto.MovieWS;
+import com.dh.catalogservice.domain.model.dto.SerieWS;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
@@ -13,8 +16,9 @@ import java.util.List;
 public interface SerieClient {
 
     @RequestMapping("/series/{genre}")
-    List<MovieWS> getSeriesByGenre(@PathVariable String genre);
+    List<SerieWS> getSeriesByGenre(@PathVariable String genre);
 
-    @RequestMapping("/series")
-    MovieWS saveSerie(@RequestBody Serie serie);
+    @RequestMapping(value = "/series", method = RequestMethod.POST, consumes = "application/json",
+            produces = "application/json")
+    SerieWS saveSerie(Serie serie);
 }

@@ -12,6 +12,8 @@ import com.dh.catalogservice.domain.model.dto.SerieWS;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class CatalogService {
     private final MovieClient movieClient;
@@ -26,24 +28,26 @@ public class CatalogService {
         return CatalogWS.builder().movies(movieClient.getMoviesByGenre(genre)).genre(genre).build();
     }
 
-    public CatalogWS createMovie(MovieWS movimovieWS) {
+    public MovieWS createMovie(MovieWS movimovieWS) {
         Movie movie = new Movie();
         movie.setName(movimovieWS.getName());
         movie.setGenre(movimovieWS.getGenre());
         movie.setUrlStream(movimovieWS.getUrlStream());
 
-        return CatalogWS.builder().movies(Lists.newArrayList(movieClient.saveMovie(movie))).build();
+        return movieClient.saveMovie(movie);
     }
 
-    public CatalogWS createSerie(SerieWS serieWS) {
+    public SerieWS createSerie(SerieWS serieWS) {
         Serie serie = new Serie();
         serie.setGenre(serieWS.getGenre());
         serie.setName(serieWS.getName());
         serie.setSeasons(serieWS.getSeasons().stream().map(s -> {
             Season season = new Season();
+            season.setId(UUID.randomUUID().toString());
             season.setSeasonNumber(s.getSeasonNumber());
             season.setChapters(s.getChapters().stream().map(c -> {
                 Chapter chapter = new Chapter();
+                chapter.setId(UUID.randomUUID().toString());
                 chapter.setName(c.getName());
                 chapter.setUrlStream(c.getUrlStream());
                 chapter.setNumber(c.getNumber());
@@ -51,6 +55,6 @@ public class CatalogService {
             }).toList());
             return season;
         }).toList());
-        return CatalogWS.builder().movies(Lists.newArrayList(serieClient.saveSerie(serie))).build();
+        return serieClient.saveSerie(serie);
     }
 }

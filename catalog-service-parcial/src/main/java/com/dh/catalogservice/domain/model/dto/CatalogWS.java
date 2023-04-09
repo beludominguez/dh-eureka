@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CatalogWS {
-	private String genre;
-	private List<MovieWS> movies;
+    private String genre;
+    private List<MovieWS> movies;
+    private List<SerieWS> series;
 }

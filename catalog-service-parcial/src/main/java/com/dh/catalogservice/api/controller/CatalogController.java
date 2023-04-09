@@ -27,12 +27,12 @@ public class CatalogController {
     }
 
     @PostMapping("/movies")
-    ResponseEntity<CatalogWS> saveMovie(@RequestBody MovieWS moviesWS) {
+    ResponseEntity<MovieWS> saveMovie(@RequestBody MovieWS moviesWS) {
         return ResponseEntity.ok().body(catalogService.createMovie(moviesWS));
     }
 
     @PostMapping("/series")
-    ResponseEntity<CatalogWS> saveMovie(@RequestBody SerieWS serieWS) {
+    ResponseEntity<SerieWS> saveMovie(@RequestBody SerieWS serieWS) {
         return ResponseEntity.ok().body(catalogService.createSerie(serieWS));
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Season {
 
-    private Long id;
+    private String id;
     private Long seasonNumber;
 
     private List<Chapter> chapters;

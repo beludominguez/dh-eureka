@@ -1,6 +1,10 @@
 server:
   port: 0
+queue:
+  series: series-queue
 spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
   application:
     name: movie-service
   profiles:
@@ -8,16 +12,20 @@ spring:
   config:
     import: optional:configserver:http://localhost:8080
   datasource:
-    url: jdbc:h2:mem:movies
-    username: admin
-    password:
-    driverClassName: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/dh
+    username: root
+    password: admin
+    driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
-    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
     show-sql: true
     defer-datasource-initialization: true
+  rabbitmq:
+    username: admin
+    password: admin
+    host: localhost
+    port: 5672
 eureka:
   client:
     serviceUrl:

@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class SeasonWS {
 
-    private Long id;
+    private String id;
     private Long seasonNumber;
     private List<ChapterWS> chapters;
 }

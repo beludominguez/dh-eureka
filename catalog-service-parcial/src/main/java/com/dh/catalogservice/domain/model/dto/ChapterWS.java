@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ChapterWS {
 
-    private Long id;
+    private String id;
     private String name;
     private Long number;
     private String urlStream;

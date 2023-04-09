@@ -1,4 +1,4 @@
-package com.dh.series.series;
+package com.dh.series;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
