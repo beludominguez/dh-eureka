@@ -1,4 +1,4 @@
-package com.dh.catalogservice.domain.model.dto;
+package com.dh.catalogservice.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

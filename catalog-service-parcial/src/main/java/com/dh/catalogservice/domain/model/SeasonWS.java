@@ -1,4 +1,4 @@
-package com.dh.catalogservice.domain.model.dto;
+package com.dh.catalogservice.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,10 +9,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SerieWS {
+public class SeasonWS {
 
     private String id;
-    private String name;
-    private String genre;
-    private List<SeasonWS> seasons;
+    private Long seasonNumber;
+    private List<ChapterWS> chapters;
 }

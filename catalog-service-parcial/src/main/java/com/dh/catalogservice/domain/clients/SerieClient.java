@@ -1,12 +1,9 @@
 package com.dh.catalogservice.domain.clients;
 
 import com.dh.catalogservice.api.model.Serie;
-import com.dh.catalogservice.domain.model.dto.MovieWS;
-import com.dh.catalogservice.domain.model.dto.SerieWS;
+import com.dh.catalogservice.domain.model.SerieWS;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 

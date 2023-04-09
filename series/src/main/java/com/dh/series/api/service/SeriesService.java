@@ -2,6 +2,7 @@ package com.dh.series.api.service;
 
 import com.dh.series.domain.model.Serie;
 import com.dh.series.domain.repository.SeriesRepository;
+import com.dh.series.rabbit.Sender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ import java.util.List;
 public class SeriesService {
 
     private final SeriesRepository seriesRepository;
+    private final Sender sender;
 
-    public SeriesService(SeriesRepository seriesRepository) {
+    public SeriesService(SeriesRepository seriesRepository, Sender sender) {
         this.seriesRepository = seriesRepository;
+        this.sender = sender;
     }
 
     public List<Serie> getListByGenre(String genre) {
@@ -24,8 +27,9 @@ public class SeriesService {
 
     public Serie save(Serie serie) {
         Serie s = seriesRepository.insert(serie);
-        List<Serie> ss = seriesRepository.findByGenre(serie.getGenre());
-        log.info("all series by genre {} - {}", serie.getGenre(), ss);
+
+        log.info("Series created with id {}", s.getId());
+        sender.sendMessage(s);
         return s;
     }
 }

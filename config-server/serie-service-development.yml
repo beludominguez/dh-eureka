@@ -1,5 +1,4 @@
 server:
   port: 0
-
 queue:
-  movies: movies-queue
+  series: series-queue

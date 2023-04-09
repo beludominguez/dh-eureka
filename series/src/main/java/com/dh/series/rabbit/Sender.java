@@ -1,6 +1,6 @@
-package com.dh.movieservice.rabbit;
+package com.dh.series.rabbit;
 
-import com.dh.movieservice.domain.model.Movie;
+import com.dh.series.domain.model.Serie;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -8,16 +8,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class Sender {
 
+    @Value("${queue.series}")
+    private String seriesQueue;
     private final RabbitTemplate rabbitTemplate;
-    @Value("${queue.movies}")
-    private String moviesQueue;
 
     public Sender(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
-    public void sendMessage(Movie movie) {
+    public void sendMessage(Serie movie) {
         // TODO: add resillience4j for retries with exponential backoff
-        rabbitTemplate.convertAndSend(this.moviesQueue, movie);
+        rabbitTemplate.convertAndSend(this.seriesQueue, movie);
     }
 }
