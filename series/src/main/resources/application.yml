@@ -1,3 +1,5 @@
+queue:
+  series: series-queue
 spring:
   jackson:
     property-naming-strategy: SNAKE_CASE

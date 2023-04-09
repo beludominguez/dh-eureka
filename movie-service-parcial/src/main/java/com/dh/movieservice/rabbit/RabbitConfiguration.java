@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfiguration {
 
-    @Value("${queue.series}")
-    private String seriesQueue;
+    @Value("${queue.movies}")
+    private String moviesQueue;
 
     @Bean
     public MessageConverter jsonMessageConverter() {
@@ -20,6 +20,6 @@ public class RabbitConfiguration {
 
     @Bean
     public Queue queue() {
-        return new Queue(this.seriesQueue, true);
+        return new Queue(this.moviesQueue, true);
     }
 }
