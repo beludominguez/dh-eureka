@@ -1,0 +1,144 @@
+version: '3' # Version del docker-compose
+
+networks:
+  backend2network:
+
+services:
+  # Config Server
+  config-server:
+    build: config-server/
+    ports:
+      - "8083:8083"
+    networks:
+      - backend2network
+    depends_on:
+      - zipkin
+    healthcheck:
+      test: "curl -f http://config-server:8083/actuator/health || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+
+  # Eureka server
+  eureka-server:
+    build: server/
+    ports:
+      - "8888:8888"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - backend2network
+    healthcheck:
+      test: "curl -f http://eureka-server:8888/actuator/health || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+
+
+  # Base de datos MongoDB
+  mongodb:
+    image: mongo:4.4.2
+    ports:
+      - "27017:27017"
+    command: mongod
+    healthcheck:
+      test: "mongo --eval 'db.stats().ok'"
+      interval: 5s
+      timeout: 2s
+      retries: 60
+    networks:
+      - backend2network
+
+  # Microservicio de Mensajeria
+  rabbit-mq:
+    image: rabbitmq:3.8.14-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - backend2network
+
+  # Microservicio de Trazas
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - backend2network
+    depends_on:
+      rabbit-mq:
+        condition: service_started
+
+  # Base de datos
+  mysqldb:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+
+  # Microservicio Movies
+  movie-service:
+    build: movie-service-parcial/
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      rabbit-mq:
+        condition: service_started
+      mysqldb:
+        condition: service_started
+    networks:
+      - backend2network
+    ports:
+      - "8085:8085"
+
+  # Microservicio Serie
+  series-service:
+    build: series/
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      rabbit-mq:
+        condition: service_started
+      mongodb:
+        condition: service_healthy
+    networks:
+      - backend2network
+    ports:
+      - "8086:8086"
+
+  # Microservicio Catalog
+  catalog-service:
+    build: catalog-service-parcial/
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+      mongodb:
+        condition: service_healthy
+      rabbit-mq:
+        condition: service_started
+    networks:
+      - backend2network
+    ports:
+      - "8082:8082"
+
+  # Microservicio de Gateway
+  gateway-service:
+    build: gateway/
+    depends_on:
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_healthy
+    ports:
+      - "8084:8084"
+    networks:
+      - backend2network

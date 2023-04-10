@@ -10,17 +10,15 @@ spring:
     port: 5672
     host: localhost
   zipkin:
-    baseUrl: http://localhost:9411/
+    baseUrl: http://zipkin:9411/
     enabled: true
-    sender:
-      type:rabbit
 
   application:
     name: catalog-service
   profiles:
     active: development
   config:
-    import: optional:configserver:http://localhost:8080
+    import: optional:configserver:http://localhost:8083
 eureka:
   client:
     serviceUrl:

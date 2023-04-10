@@ -1,0 +1,74 @@
+1. Modificar config-server / eureka-server / zipkin / mysqldb por localhost en los application properties
+2. Levantar mysql
+    docker run --name mysql -e MYSQL_ROOT_PASSWORD=admin -p 3306:3306 -d mysql:8.0.32
+    - Una vez levantado hacer
+        - docker exec -it mysql bash
+        - mysql -uroot -p
+        - ejecutar script de data.sql dentro de la carpeta resources del proyecto movie-service
+3. Levantar rabbitmq
+    docker run -d --hostname my-rabbit --name dh-rabbit -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+4. Levantar zipkin
+    docker run -d -p 9411:9411 openzipkin/zipkin
+5. Levantan mongodb
+    docker run --name mongodb -p 27017:27017 -d mongo:4.4.2
+6. Levantar eureka-server
+7. Levantar config-server
+8. Levantar los servicios
+    - Movies
+    - Series
+    - Catalog
+    - Gateway
+
+9. Probar
+
+- curl --location 'http://localhost:8081/catalog/movies' \
+  --header 'Content-Type: application/json' \
+  --data '{
+      "name": "test 3",
+      "genre": "Terror",
+      "url_stream": "another test"
+  }'
+
+- curl --location 'http://localhost:8081/catalog/series' \
+  --header 'Content-Type: application/json' \
+  --data '{
+      "name": "test 3",
+      "genre": "drama",
+      "seasons": [
+          {
+              "seasonNumber": 1,
+              "chapters": [
+                  {
+                      "name": "test chapter",
+                      "number": 1,
+                      "urlStream": "another test"
+                  }
+              ]
+          },
+          {
+              "seasonNumber": 2,
+              "chapters": [
+                  {
+                      "name": "test chapter season 2",
+                      "number": 1,
+                      "urlStream": "another test"
+                  },
+                  {
+                      "name": "test chapter season 2",
+                      "number": 2,
+                      "urlStream": "another test"
+                  }
+              ]
+          }
+      ]
+  }'
+
+- curl --location 'http://localhost:8081/catalog/drama'
+
+El docker-compose.yml tiene todos los servicios, si se quisiera hacer un compose solo con zipkin, rabbitmq, mysql y mongo hay que comentar los servicios de java y sale andando.
+
+El problema que encontre y no pude resolver fue que el config-server necesita las keys de github para poder clonar el repo, al ser privado me hacen falta las key ssh, no pude hacer andar esa parte, por lo tanto ningun servicio levanta, por eso lo hago por separado
+
+Los tests no llegue hacerlos pero entiendo, solo lo estuve probando de manera local y manual a los escenarios, a su vez me falto el manejo de errores que por cuestiones de tiempo no llegue a implementarlo, todo lo relacionado con el controller advice para que no mostraran las excepciones directamente en el json de respuesta.
+
+Se podrian agregar mas logs en los flujos principales, a revisar
